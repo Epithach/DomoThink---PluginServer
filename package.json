@@ -1,0 +1,22 @@
+{
+  "name": "domothink-plugin",
+  "version": "1.0.0",
+  "description": "Domothink plugin server",
+    "main": "server.js",
+    "dependencies": {
+	"express": "~4.0.0"
+    },
+  "scripts": {
+    "test": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Epithach/DomoThink---PluginServer.git"
+  },
+  "author": "Antoine THACH",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Epithach/DomoThink---PluginServer/issues"
+  },
+  "homepage": "https://github.com/Epithach/DomoThink---PluginServer#readme"
+}
