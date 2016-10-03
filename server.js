@@ -53,12 +53,28 @@ route_get.get('/plugin', function(req, res) {
 });
 
 
+route_get.get('/plugin/plugin_1', function(req, res) {
+    res.sendFile( __dirname + '/plugin/plugin_1'); { root : __dirname }
+});
+
+route_get.get('/plugin/plugin_2', function(req, res) {
+    res.sendFile( __dirname + '/plugin/plugin_2'); { root : __dirname }
+});
+
+route_get.get('/plugin/plugin_3', function(req, res) {
+    res.sendFile( __dirname + '/plugin/plugin_3'); { root : __dirname }
+});
+
+
 // more routes for our API will happen here
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', route_get);
 app.use('/api/plugin', route_get);
+app.use('/api/plugin/plugin_1', route_get);
+app.use('/api/plugin/plugin_2', route_get);
+app.use('/api/plugin/plugin_3', route_get);
 
 // START THE SERVER
 // =============================================================================
