@@ -34,22 +34,18 @@ route_get.get('/plugin', function(req, res) {
 	    return;
 	}
 	console.log('Path is : ' + path);
-
 	
     });
     fs.readdir("./plugin", function(err, files) {
 	if (err) return;
 	files.forEach(function(f) {
 	    console.log('Files: ' + f);
-
-	    test = f.arguments;
-	 
 	});
     });
-//    res.json({ message: 'hooray! welcome to Plugin !'});
 
-    res.sendFile( __dirname + '/server.js'); { root : __dirname }
-    
+    res.json({ message: 'hooray! welcome to our api!' });
+
+
 });
 
 
