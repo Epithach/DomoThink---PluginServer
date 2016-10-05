@@ -7,6 +7,12 @@ var bodyParser	= require('body-parser');
 var fs		= require('fs');
 var port	= process.env.PORT || 8080;  // set our port
 var route_get;				     // create a route who will use for the get request	
+var files	= "";			     // Var who will contain the current of the files	
+var file_list;			     // Var who will contain the list of the files in JSON
+
+
+//file_list += "{ \"Files\" : [\n{\\n";
+
 
 /**
  * Main
@@ -19,6 +25,8 @@ app.use(bodyParser.json());
 // building a route
 // get an instance of the express Router
 route_get = express.Router();              
+
+
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 route_get.get('/', function(req, res) {
@@ -34,18 +42,26 @@ route_get.get('/plugin', function(req, res) {
 	    return;
 	}
 	console.log('Path is : ' + path);
-	
     });
     fs.readdir("./plugin", function(err, files) {
 	if (err) return;
-	files.forEach(function(f) {
-	    console.log('Files: ' + f);
+
+	files.forEach(function(files) {
+//	    console.log('Files: ' + files);
+	    console.log(files);
+	    file_list += "\n" + files;
 	});
     });
 
-    res.json({ message: 'hooray! welcome to our api!' });
+    res.json({ file_list, files });
 
+    
+//    file_list += "]\n}";
+    
+    console.log(file_list);
+//    res.json({ message: 'hooray! welcome to our api!' });
 
+    file_list = "";
 });
 
 
@@ -61,6 +77,9 @@ route_get.get('/plugin/plugin_3', function(req, res) {
     res.sendFile( __dirname + '/plugin/plugin_3'); { root : __dirname }
 });
 
+route_get.get('/plugin/plugin_3', function(req, res) {
+    res.sendFile( __dirname + '/plugin/plugin_3'); { root : __dirname }
+});
 
 // more routes for our API will happen here
 
@@ -71,6 +90,7 @@ app.use('/api/plugin', route_get);
 app.use('/api/plugin/plugin_1', route_get);
 app.use('/api/plugin/plugin_2', route_get);
 app.use('/api/plugin/plugin_3', route_get);
+app.use('/api/store', route_get);
 
 // START THE SERVER
 // =============================================================================
