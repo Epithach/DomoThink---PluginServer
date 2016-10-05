@@ -47,14 +47,15 @@ route_get.get('/plugin', function(req, res) {
 	if (err) return;
 
 	files.forEach(function(files) {
-//	    console.log('Files: ' + files);
+	    //	    console.log('Files: ' + files);
+	    file_list += files + " ";
+	    
 	    console.log(files);
-	    file_list += "\n" + files;
 	});
     });
 
     res.json({ file_list, files });
-
+   
     
 //    file_list += "]\n}";
     
@@ -77,7 +78,24 @@ route_get.get('/plugin/plugin_3', function(req, res) {
     res.sendFile( __dirname + '/plugin/plugin_3'); { root : __dirname }
 });
 
+// ROUTE STORE
 route_get.get('/store', function(req, res) {
+
+
+    fs.readdir("./plugin", function(err, files) {
+	if (err) return;
+	
+	files.forEach(function(files) {
+	    //	    console.log('Files: ' + files);
+	    console.log(files);
+	    file_list += files + " ";
+	    
+	});
+    });
+
+    res.json(file_list);
+    file_list = " ";
+    
     console.log("Show every file from /store");
 });
 
