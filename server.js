@@ -77,9 +77,31 @@ route_get.get('/plugin/plugin_3', function(req, res) {
     res.sendFile( __dirname + '/plugin/plugin_3'); { root : __dirname }
 });
 
-route_get.get('/plugin/plugin_3', function(req, res) {
-    res.sendFile( __dirname + '/plugin/plugin_3'); { root : __dirname }
+route_get.get('/store', function(req, res) {
+    console.log("Show every file from /store");
 });
+
+route_get.get('/store/plugin_1', function(req, res) {
+    console.log("Show information from plugin_1 from /store");
+});
+
+route_get.get('/store/plugin_2', function(req, res) {
+    console.log("Show information from plugin_2 from /store");
+});
+
+route_get.get('/store/plugin_3', function(req, res) {
+    console.log("Show information from plugin_3 from /store");
+});
+
+route_get.post('/store/install/plugin_1', function(req, res) {
+    console.log("Install plugin_1 from /store");
+});
+
+route_get.post('/store/uninstall/plugin_1', function(req, res) {
+    console.log("Uninstall plugin_1 from /store");
+});
+
+
 
 // more routes for our API will happen here
 
@@ -91,6 +113,12 @@ app.use('/api/plugin/plugin_1', route_get);
 app.use('/api/plugin/plugin_2', route_get);
 app.use('/api/plugin/plugin_3', route_get);
 app.use('/api/store', route_get);
+app.use('/api/store/store_1', route_get);
+app.use('/api/store/store_2', route_get);
+app.use('/api/store/store_3', route_get);
+app.use('/api/store/install/plugin_1', route_get);
+app.use('/api/store/uninstall/plugin_1', route_get);
+
 
 // START THE SERVER
 // =============================================================================
