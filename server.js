@@ -30,11 +30,14 @@ route_get = express.Router();
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 route_get.get('/', function(req, res) {
+    res.statusCode = 200;
     res.json({ message: 'hooray! welcome to our api!' });    
 });
 
 //create route plugin
 route_get.get('/plugin', function(req, res) {
+
+    res.statusCode = 200;
 
     fs.realpath("./plugin", function(err, path) {
     	if (err) {
@@ -67,21 +70,25 @@ route_get.get('/plugin', function(req, res) {
 
 
 route_get.get('/plugin/plugin_1', function(req, res) {
+    res.statusCode = 200;
     res.sendFile( __dirname + '/plugin/plugin_1'); { root : __dirname }
 });
 
 route_get.get('/plugin/plugin_2', function(req, res) {
+    res.statusCode = 200;
     res.sendFile( __dirname + '/plugin/plugin_2'); { root : __dirname }
 });
 
 route_get.get('/plugin/plugin_3', function(req, res) {
+    res.statusCode = 200;
     res.sendFile( __dirname + '/plugin/plugin_3'); { root : __dirname }
 });
 
 // ROUTE STORE
 route_get.get('/store', function(req, res) {
 
-
+    res.statusCode = 200;
+    
     fs.readdir("./plugin", function(err, files) {
 	if (err) return;
 	
@@ -100,22 +107,27 @@ route_get.get('/store', function(req, res) {
 });
 
 route_get.get('/store/plugin_1', function(req, res) {
+    res.statusCode = 200;
     console.log("Show information from plugin_1 from /store");
 });
 
 route_get.get('/store/plugin_2', function(req, res) {
+    res.statusCode = 200;
     console.log("Show information from plugin_2 from /store");
 });
 
 route_get.get('/store/plugin_3', function(req, res) {
+    res.statusCode = 200;
     console.log("Show information from plugin_3 from /store");
 });
 
 route_get.post('/store/install/plugin_1', function(req, res) {
+    res.statusCode = 200;
     console.log("Install plugin_1 from /store");
 });
 
 route_get.post('/store/uninstall/plugin_1', function(req, res) {
+    res.statusCode = 200;
     console.log("Uninstall plugin_1 from /store");
 });
 
