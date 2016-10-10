@@ -42,6 +42,7 @@ route_get.get('/plugin', function(req, res) {
     fs.realpath("./plugin", function(err, path) {
     	if (err) {
 	    console.log(err);
+	    res.statusCode = 500;
 	    return;
 	}
 	console.log('Path is : ' + path);
@@ -90,7 +91,11 @@ route_get.get('/store', function(req, res) {
     res.statusCode = 200;
     
     fs.readdir("./plugin", function(err, files) {
-	if (err) return;
+	if (err) {
+    	    res.statusCode = 500;
+	    console.log("Read /plugin error");
+	    return;
+	}
 	
 	files.forEach(function(files) {
 	    //	    console.log('Files: ' + files);
