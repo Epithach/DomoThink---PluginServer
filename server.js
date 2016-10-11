@@ -37,7 +37,6 @@ router.get('/', function(req, res) {
 //create route plugin
 router.get('/plugin', function(req, res) {
 
-    res.statusCode = 200;
 
     /*fs.realpath("./plugin", function(err, path) {
     	if (err) {
@@ -81,27 +80,16 @@ router.get('/plugin/plugin_3', function(req, res) {
 // ROUTE STORE
 router.get('/store', function(req, res) {
 
-    res.statusCode = 200;
-    
-    fs.readdir("./plugin", function(err, files) {
+    fs.readdir("./store", function(err, files) {
 	if (err) {
-    	    res.statusCode = 500;
-	    console.log("Read /plugin error");
+	    res.statusCode = 500;
 	    return;
 	}
-	
-	files.forEach(function(files) {
-	    console.log(files);
-	    file_list += files + " ";
-	    
-	});
+	res.json(files);
+	res.statusCode = 200;
+	console.log(files);
     });
-
-    res.json(file_list);
-    file_list = " ";
-    
-    console.log("Show every file from /store");
-
+ 
 });
 
 router.get('/store/plugin_1', function(req, res) {
