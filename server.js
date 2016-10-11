@@ -11,8 +11,6 @@ var files	= "";			     // Var who will contain the current of the files
 var file_list;			     // Var who will contain the list of the files in JSON
 
 
-//file_list += "{ \"Files\" : [\n{\\n";
-
 
 /**
  * Main
@@ -61,29 +59,28 @@ route_get.get('/plugin', function(req, res) {
     res.json({ file_list, files });
    
     
-//    file_list += "]\n}";
-    
     console.log(file_list);
 //    res.json({ message: 'hooray! welcome to our api!' });
 
     file_list = "";
 });
 
-
+// PLUGIN
 route_get.get('/plugin/plugin_1', function(req, res) {
     res.statusCode = 200;
-    res.sendFile( __dirname + '/plugin/plugin_1'); { root : __dirname }
+    console.log("Show information from plugin_1 from /plugin");
 });
 
 route_get.get('/plugin/plugin_2', function(req, res) {
     res.statusCode = 200;
-    res.sendFile( __dirname + '/plugin/plugin_2'); { root : __dirname }
+    console.log("Show information from plugin_2 from /plugin");
 });
 
 route_get.get('/plugin/plugin_3', function(req, res) {
     res.statusCode = 200;
-    res.sendFile( __dirname + '/plugin/plugin_3'); { root : __dirname }
+    console.log("Show information from plugin_3 from /plugin");
 });
+
 
 // ROUTE STORE
 route_get.get('/store', function(req, res) {
@@ -98,7 +95,6 @@ route_get.get('/store', function(req, res) {
 	}
 	
 	files.forEach(function(files) {
-	    //	    console.log('Files: ' + files);
 	    console.log(files);
 	    file_list += files + " ";
 	    
@@ -113,22 +109,23 @@ route_get.get('/store', function(req, res) {
 
 route_get.get('/store/plugin_1', function(req, res) {
     res.statusCode = 200;
-    console.log("Show information from plugin_1 from /store");
+    res.sendFile( __dirname + '/store/plugin_1'); { root : __dirname }
 });
 
 route_get.get('/store/plugin_2', function(req, res) {
     res.statusCode = 200;
-    console.log("Show information from plugin_2 from /store");
+    res.sendFile( __dirname + '/store/plugin_2'); { root : __dirname }
 });
 
 route_get.get('/store/plugin_3', function(req, res) {
     res.statusCode = 200;
-    console.log("Show information from plugin_3 from /store");
+    res.sendFile( __dirname + '/store/plugin_3'); { root : __dirname }
 });
 
 route_get.post('/store/install/plugin_1', function(req, res) {
     res.statusCode = 200;
     console.log("Install plugin_1 from /store");
+    res.sendFile( __dirname + '/store/install/plugin_1'); { root : __dirname }
 });
 
 route_get.post('/store/uninstall/plugin_1', function(req, res) {
