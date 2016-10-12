@@ -164,9 +164,7 @@ app.use('/api/plugin/plugin_1', router);
 app.use('/api/plugin/plugin_2', router);
 app.use('/api/plugin/plugin_3', router);
 app.use('/api/store', router);
-app.use('/api/store/store_1', router);
-app.use('/api/store/store_2', router);
-app.use('/api/store/store_3', router);
+app.use('/api/store/1', router);
 app.use('/api/store/install/plugin_1', router);
 app.use('/api/store/uninstall/plugin_1', router);
 
