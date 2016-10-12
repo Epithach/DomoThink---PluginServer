@@ -130,7 +130,19 @@ router.get('/store', function(req, res) {
 	    return console.error('error fetching client from pool', err);
 	}
 
-	var query = client.query('select id, name, info, creator from store')
+//	var query = client.query('select id, name, info, creator from store')
+
+	var query = client.query('select id, name, info, creator from store', function(err, result) {
+	    if (err) {
+		result.writeHead(200, { 'Content-Type': 'application/json'});
+		return console.error('SQL Query failed');
+	    }
+
+	    console.log(result.rows);
+	    res.end(JSON.stringify(result.rows));
+	});
+
+/*
 	query.on('row', function(row) {
 	    console.log('ID : "%s" NAME : "%s" INFO : "%s" CREATOR : "%s"',
 			row.id,
@@ -138,8 +150,8 @@ router.get('/store', function(req, res) {
 			row.info,
 			row.creator);
 
-	    res.end(JSON.stringify(row));
-	});
+//	    res.end(JSON.stringify(row));
+	});*/
 
 
 
