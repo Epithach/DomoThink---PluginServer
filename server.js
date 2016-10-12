@@ -7,7 +7,9 @@ var bodyParser	= require('body-parser');
 var fs		= require('fs');
 var port	= process.env.PORT || 8080;	// set our port
 var router;					// create a route who will use for the request
-var files	= "";				// Var who will contain the current of the files
+var files = "";					// Var who will contain the current of the files
+var fs;						// Var who will be used to read diles
+
 
 //PGSQL Variables
 var pg = require('pg');				// call pg	
@@ -69,16 +71,47 @@ router.get('/plugin', function(req, res) {
 router.get('/plugin/plugin_1', function(req, res) {
     res.statusCode = 200;
     console.log("Show information from plugin_1 from /plugin");
+
+    fs = require('fs')
+    fs.readFile(__dirname + '/plugin/plugin_1', 'utf8', function (err,data) {
+	if (err) {
+	    res.statusCode = 500;
+	    return console.log(err);
+	}
+	res.end(data);
+    });
+
 });
 
 router.get('/plugin/plugin_2', function(req, res) {
     res.statusCode = 200;
     console.log("Show information from plugin_2 from /plugin");
+
+    fs = require('fs')
+    fs.readFile(__dirname + '/plugin/plugin_2', 'utf8', function (err,data) {
+	if (err) {
+	    res.statusCode = 500;
+	    return console.log(err);
+	}
+	res.end(data);
+    });
+
+    
 });
 
 router.get('/plugin/plugin_3', function(req, res) {
     res.statusCode = 200;
     console.log("Show information from plugin_3 from /plugin");
+
+    fs = require('fs')
+    fs.readFile(__dirname + '/plugin/plugin_3', 'utf8', function (err,data) {
+	if (err) {
+	    res.statusCode = 500;
+	    return console.log(err);
+	}
+	res.end(data);
+    });
+    
 });
 
 /***
