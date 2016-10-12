@@ -171,14 +171,13 @@ router.get('/store/1', function(req, res) {
 router.post('/store/install/plugin_1', function(req, res) {
     res.statusCode = 200;
     console.log("Install plugin_1 from /store");
-    // res.sendFile( __dirname + '/store/install/plugin_1'); { root : __dirname }
-    res.sendFile(''); { root : __dirname }
+    res.sendFile( __dirname + '/store/install/plugin_1'); { root : __dirname }
 });
 
 //Download plugin_2
 router.post('/store/install/plugin_2', function(req, res) {
     res.statusCode = 200;
-    res.sendFile( __dirname + '/store/install/plugin_2'); { root : __dirname }
+    res.sendfile( __dirname + '/store/install/plugin_2'); { root : __dirname }
 });
 
 router.post('/store/uninstall/plugin_1', function(req, res) {
