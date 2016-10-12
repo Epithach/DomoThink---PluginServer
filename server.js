@@ -129,33 +129,17 @@ router.get('/store', function(req, res) {
 	    return console.error('error fetching client from pool', err);
 	}
 	
-	
-/*	client.query('SELECT $1::int AS number', ['1'], function(err, result) {
-	    //call `done()` to release the client back to the pool
-	    done();
-
-	    if(err) {
-		return console.error('error running query', err);
-	    }
-	    console.log(result);
-	    //	console.log(result.rows[0].number);
-	    //output: 1
-	});
-*/	
-	var query = client.query('SELECT login, password, id FROM users', function(err, result) {
-	    query.on('row', function(row) {
-		console.log('LOGIN : "%s" PASSWORD : "%s" ID : "%s"', row.login, row.password, row.id);
-	    });
-	    
-	    
+	var query = client.query('select id, name, info, creator from store')
+	query.on('row', function(row) {
+	    console.log('ID : "%s" NAME : "%s" INFO : "%s" CREATOR : "%s"', row.id, row.name, row.info, row.creator);
 	});
 	
-	pool.on('error', function (err, client) {
-	    console.error('idle client error', err.message, err.stack)
-	})
+	
     });
     
-    
+    pool.on('error', function (err, client) {
+	console.error('idle client error', err.message, err.stack)
+    })
     
     
 });
