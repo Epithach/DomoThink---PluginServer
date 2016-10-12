@@ -109,7 +109,7 @@ router.get('/plugin/plugin_3', function(req, res) {
 router.get('/store', function(req, res) {
 
     
-    fs.readdir("./store", function(err, files) {
+/*    fs.readdir("./store", function(err, files) {
 	if (err) {
 	    res.statusCode = 500;
 	    return;
@@ -118,9 +118,10 @@ router.get('/store', function(req, res) {
 	res.statusCode = 200;
 	console.log(files);
     });
-    
+*/    
     
 
+    res.writeHead(200, { 'Content-Type': 'application/json'});
 
     // to run a query we can acquire a client from the pool,
     // run a query on the client, and then return the client to the pool
@@ -128,12 +129,20 @@ router.get('/store', function(req, res) {
 	if(err) {
 	    return console.error('error fetching client from pool', err);
 	}
-	
+
 	var query = client.query('select id, name, info, creator from store')
 	query.on('row', function(row) {
-	    console.log('ID : "%s" NAME : "%s" INFO : "%s" CREATOR : "%s"', row.id, row.name, row.info, row.creator);
+	    console.log('ID : "%s" NAME : "%s" INFO : "%s" CREATOR : "%s"',
+			row.id,
+			row.name,
+			row.info,
+			row.creator);
+
+	    res.end(JSON.stringify(row));
 	});
-	
+
+
+
 	
     });
     
