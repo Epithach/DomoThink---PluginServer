@@ -9,7 +9,7 @@ var port	= process.env.PORT || 8080;	// set our port
 var router;					// create a route who will use for the request
 var files = "";					// Var who will contain the current of the files
 var fs;						// Var who will be used to read diles
-
+var path = "";					// Var who will get a file path
 
 //PGSQL Variables
 var pg = require('pg');				// call pg	
@@ -167,22 +167,24 @@ router.get('/store/1', function(req, res) {
     })
 });
 
-//Download plugin_1
-router.post('/store/install/plugin_1', function(req, res) {
+//Download plugin_Id
+router.post('/store/install/:id', function(req, res) {
     res.statusCode = 200;
-    console.log("Install plugin_1 from /store");
-    res.sendFile( __dirname + '/store/install/plugin_1'); { root : __dirname }
+
+    path = "/store/install/plugin_" + req.params.id; 
+    console.log("Install plugin_%d from : %s", req.params.id, path);
+    res.sendFile( __dirname + path); { root : __dirname }
 });
 
-//Download plugin_2
-router.post('/store/install/plugin_2', function(req, res) {
+router.post('/store/uninstall/:id', function(req, res) {
     res.statusCode = 200;
-    res.sendfile( __dirname + '/store/install/plugin_2'); { root : __dirname }
+    path = "/plugin/plugin_" + req.params.id;
+    console.log("Uninstall plugin_%d from /store", req.params.id);
 });
 
-router.post('/store/uninstall/plugin_1', function(req, res) {
-    res.statusCode = 200;
-    console.log("Uninstall plugin_1 from /store");
+
+router.get('/article/:id', function(req , res){
+    console.log("%d\n", req.params.id);
 });
 
 
@@ -190,6 +192,9 @@ router.post('/store/uninstall/plugin_1', function(req, res) {
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
+
+app.use('/article/:id', router);
+
 
 app.use('/api', router);
 app.use('/api/plugin', router);
@@ -205,7 +210,6 @@ router.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');
     res.send(404, 'Page introuvable !');
 });
-
 
 
 
