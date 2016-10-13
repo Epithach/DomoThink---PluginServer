@@ -10,6 +10,7 @@ var router;					// create a route who will use for the request
 var files = "";					// Var who will contain the current of the files
 var fs;						// Var who will be used to read diles
 var path = "";					// Var who will get a file path
+var rmdir = require('rmdir');			// call rmdir
 
 //PGSQL Variables
 var pg = require('pg');				// call pg	
@@ -17,22 +18,16 @@ var Promise = require('es6-promise').Promise;	// call "Promise", dont know what 
 var manual_quer;				// create a var who wil contain the dynamic query
 var query;					// create a var who will use for the sql query
 var config = {					// CREATE a config to configure the sql connection
-    user: 'root',				//env var: PGUSER
-    database: 'EIP',				//env var: PGDATABASE
-    password: 'root',				//env var: PGPASSWORD
+    user: 'root',				// env var: PGUSER
+    database: 'EIP',				// env var: PGDATABASE
+    password: 'root',				// env var: PGPASSWORD
     host: 'localhost',				// Server hosting the postgres database
-    //port: 5432,				//env var: PGPORT
+    //port: 5432,				// env var: PGPORT
     max: 10,					// max number of clients in the pool
     idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
 };
-var pool = new pg.Pool(config);			//init a connect pool who will keep idle connections
+var pool = new pg.Pool(config);			// init a connect pool who will keep idle connection
 
-//PYTHON-SHELL Variables
-var PythonShell = require('python-shell');
-var options = {
-    mode: 'text',
-    args: ['caca']
-};
 
 
 
@@ -162,24 +157,30 @@ router.post('/store/install/:id', function(req, res) {
 
 router.post('/store/uninstall/:id', function(req, res) {
     res.statusCode = 200;
-    path = "/plugin/plugin_" + req.params.id;
-    console.log("Uninstall plugin_%d from /store", req.params.id);
-});
+    path = __dirname + "/plugin/plugin_" + req.params.id;
 
+    console.log("Uninstall plugin_%d from ", req.params.id);
+
+    rmdir(path, function (err, dirs, files) {
+
+	if (err) {
+	    res.end("Cannot remove the file :(");
+	    return console.log("Error rmdir failed !");
+;
+	}
+	console.log(dirs);
+	console.log(files);
+	console.log('all files are removed');
+
+	files = "Plugin '" + req.params.id + "' removed !";
+	res.end(files);
+    });
+  
+    
+});
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
-
-
-
-
-
-PythonShell.run('remove-plugin.py', options, function (err) {
-    if (err) throw err;
-});
-
-
-
 
 app.use('/api', router);
 app.use('/api/plugin', router);
@@ -193,8 +194,6 @@ router.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');
     res.send(404, 'Page introuvable !');
 });
-
-
 
 // START THE SERVER
 // =============================================================================
