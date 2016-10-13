@@ -1,6 +1,4 @@
-## THE VAR NAME'S TO BE "STR"
+import sys
+import shutil
 
-#def deletePlugin( str ):
-#       shutil.rmtree(str[, ignore_errors[, onerror]])
- #         return
-
+shutil.rmtree(sys.argv[1])

@@ -25,7 +25,15 @@ var config = {					// CREATE a config to configure the sql connection
     max: 10,					// max number of clients in the pool
     idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
 };
-var pool = new pg.Pool(config);			//initiate a connection pool who will keep idle connections
+var pool = new pg.Pool(config);			//init a connect pool who will keep idle connections
+
+//PYTHON-SHELL Variables
+var PythonShell = require('python-shell');
+var options = {
+    mode: 'text',
+    args: ['caca']
+};
+
 
 
 /**
@@ -69,50 +77,22 @@ router.get('/plugin', function(req, res) {
 * PLUGIN ROUTE (Need to find how to create dynamic route)
 */
 
-router.get('/plugin/plugin_1', function(req, res) {
+router.get('/plugin/:id', function(req, res) {
     res.statusCode = 200;
-    console.log("Show information from plugin_1 from /plugin");
+    console.log("Show information from plugin_%d from /plugin", req.params.id, path);
 
-    fs = require('fs')
-    fs.readFile(__dirname + '/plugin/plugin_1', 'utf8', function (err,data) {
-	if (err) {
-	    res.statusCode = 500;
-	    return console.log(err);
-	}
-	res.end(data);
-    });
-
-});
-
-router.get('/plugin/plugin_2', function(req, res) {
-    res.statusCode = 200;
-    console.log("Show information from plugin_2 from /plugin");
-
-    fs = require('fs')
-    fs.readFile(__dirname + '/plugin/plugin_2', 'utf8', function (err,data) {
-	if (err) {
-	    res.statusCode = 500;
-	    return console.log(err);
-	}
-	res.end(data);
-    });
-
+    path = "/plugin/plugin_" + req.params.id + "/plugin_" + req.params.id;
+    console.log(path);
     
-});
-
-router.get('/plugin/plugin_3', function(req, res) {
-    res.statusCode = 200;
-    console.log("Show information from plugin_3 from /plugin");
-
     fs = require('fs')
-    fs.readFile(__dirname + '/plugin/plugin_3', 'utf8', function (err,data) {
+    fs.readFile(__dirname + path, 'utf8', function (err,data) {
 	if (err) {
 	    res.statusCode = 500;
 	    return console.log(err);
 	}
 	res.end(data);
     });
-    
+
 });
 
 /***
@@ -187,23 +167,23 @@ router.post('/store/uninstall/:id', function(req, res) {
 });
 
 
-var PythonShell = require('python-shell');
-
-var pypath = "caca";
-PythonShell.run('remove-plugin.py', pypath, function (err) {
-    if (err) throw err;
-});
-
-
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 
 
+
+
+
+PythonShell.run('remove-plugin.py', options, function (err) {
+    if (err) throw err;
+});
+
+
+
+
 app.use('/api', router);
 app.use('/api/plugin', router);
-app.use('/api/plugin/plugin_1', router);
-app.use('/api/plugin/plugin_2', router);
-app.use('/api/plugin/plugin_3', router);
+app.use('/api/plugin/:id', router);
 app.use('/api/store', router);
 app.use('/api/store/:id', router);
 app.use('/api/store/install/:id', router);
