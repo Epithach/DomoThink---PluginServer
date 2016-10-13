@@ -14,6 +14,7 @@ var path = "";					// Var who will get a file path
 //PGSQL Variables
 var pg = require('pg');				// call pg	
 var Promise = require('es6-promise').Promise;	// call "Promise", dont know what it is but it work
+var manual_quer;				// create a var who wil contain the dynamic query
 var query;					// create a var who will use for the sql query
 var config = {					// CREATE a config to configure the sql connection
     user: 'root',				//env var: PGUSER
@@ -129,7 +130,7 @@ router.get('/store', function(req, res) {
 	if(err) {
 	    return console.error('error fetching client from pool', err);
 	}
-
+	
 	query = client.query('select id, name, info, creator from store', function(err, result) {
 	    if (err) {
 		result.writeHead(200, { 'Content-Type': 'application/json'});
@@ -146,14 +147,17 @@ router.get('/store', function(req, res) {
     
 });
 
-router.get('/store/1', function(req, res) {
+//Get plugin info by the database
+router.get('/store/:id', function(req, res) {
 
     pool.connect(function(err, client, done) {
 	if(err) {
 	    return console.error('error fetching client from pool', err);
 	}
 	
-	query = client.query('select id, name, info, creator from store where id=1', function(err, result) {
+	manual_quer = 'select id, name, info, creator from store where id=' + req.params.id;
+
+	query = client.query(manual_quer, function(err, result) {
 	    if (err) {
 		result.writeHead(200, { 'Content-Type': 'application/json'});
 		return console.error('SQL Query failed');
@@ -167,7 +171,7 @@ router.get('/store/1', function(req, res) {
     })
 });
 
-//Download plugin_Id
+//Download plugin_id
 router.post('/store/install/:id', function(req, res) {
     res.statusCode = 200;
 
@@ -183,17 +187,16 @@ router.post('/store/uninstall/:id', function(req, res) {
 });
 
 
-router.get('/article/:id', function(req , res){
-    console.log("%d\n", req.params.id);
+var PythonShell = require('python-shell');
+
+var pypath = "caca";
+PythonShell.run('remove-plugin.py', pypath, function (err) {
+    if (err) throw err;
 });
 
 
-// more routes for our API will happen here
-
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
-
-app.use('/article/:id', router);
 
 
 app.use('/api', router);
@@ -202,9 +205,9 @@ app.use('/api/plugin/plugin_1', router);
 app.use('/api/plugin/plugin_2', router);
 app.use('/api/plugin/plugin_3', router);
 app.use('/api/store', router);
-app.use('/api/store/1', router);
-app.use('/api/store/install/plugin_1', router);
-app.use('/api/store/uninstall/plugin_1', router);
+app.use('/api/store/:id', router);
+app.use('/api/store/install/:id', router);
+app.use('/api/store/uninstall/:id', router);
 
 router.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');
