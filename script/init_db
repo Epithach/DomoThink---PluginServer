@@ -1,0 +1,13 @@
+
+## CORE TABLE
+psql --username=postgres EIP -c "CREATE TABLE users (id SERIAL NOT NULL UNIQUE, login varchar(55) NOT NULL, password varchar(55) NOT NULL );"
+psql --username=postgres EIP -c "INSERT INTO users (login, password) VALUES ('root', 'KEY')"
+psql --username=postgres EIP -c "UPDATE users SET id=0 WHERE login='root';"
+psql --username=postgres EIP -c "\d users"
+
+## STORE TABLE
+psql --username=postgres EIP -c "CREATE TABLE store (id SERIAL NOT NULL UNIQUE, name varchar(55) NOT NULL, info varchar(500) NOT NULL, creator varchar(55) NOT NULL);"
+psql --username=postgres EIP -c "INSERT INTO store (name, info, creator) VALUES ('Valentines Day', 'Un petit theme mignon pour passer une bonne soiree', 'Zelos')"
+psql --username=postgres EIP -c "INSERT INTO store (name, info, creator) VALUES ('Quotidien', 'enregistre le Quotidien de Rambo tous les jours de la semaine a 19h', 'Lloyd')"
+psql --username=postgres EIP -c "INSERT INTO store (name, info, creator) VALUES ('Radio Lefeu', 'Allume la chaine hifi a 7h du matin et lance Radio Lefeu', 'Kratos')"
+psql --username=postgres EIP -c "\d store"

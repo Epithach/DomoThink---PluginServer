@@ -1,0 +1,2 @@
+psql --username=postgres postgres -c "CREATE DATABASE \"EIP\";"
+psql --username=postgres EIP -c "CREATE USER root WITH PASSWORD 'root' CREATEDB CREATEUSER;"
